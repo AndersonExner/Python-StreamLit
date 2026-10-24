@@ -1,0 +1,22 @@
+# Ambiente virtual (venv criado na raiz do projeto)
+Include/
+Lib/
+Scripts/
+etc/
+share/
+pyvenv.cfg
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Streamlit
+.streamlit/secrets.toml
+
+# IDE / SO
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
