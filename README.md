@@ -6,14 +6,13 @@ O app (`dash.py`) gera um conjunto de dados de vendas fictício e o apresenta em
 
 ## O que o dashboard faz
 
-- **Dados de exemplo**: 100 dias de vendas aleatórias (a partir de 01/01/2026), com as colunas `Data`, `Vendas`, `Lucro` e `Categoria` (Eletrônicos, Roupas, Alimentos). A semente fixa (`np.random.seed(42)`) garante que os dados sejam sempre os mesmos.
-- **Filtros na barra lateral**: período, categorias e faixa de valores de vendas.
-- **Indicadores (KPIs)**: total de vendas, lucro total e média de vendas do recorte filtrado.
-- **Gráficos**:
-  - Linha — vendas ao longo do tempo
-  - Barras — vendas por categoria
-  - Dispersão — relação entre vendas e lucro
-- **Tabela**: os dados filtrados, dentro de um painel expansível.
+- **Dados de exemplo**: 1 ano de vendas diárias fictícias (a partir de 01/01/2026) para 3 categorias (Eletrônicos, Roupas, Alimentos). Os dados têm tendência de crescimento, pico nos fins de semana e margem de lucro diferente por categoria, e usam semente fixa para serem sempre os mesmos.
+- **Filtros na barra lateral**: período (padrão: últimos 90 dias), categorias e agrupamento dos gráficos (diário, semanal ou mensal).
+- **Indicadores (KPIs)**: total de vendas, lucro total, margem de lucro e média diária, com variação em relação ao período anterior de mesma duração e mini-gráficos (sparklines).
+- **Abas**:
+  - **Visão geral**: vendas ao longo do tempo (área empilhada), média por dia da semana e top 5 dias.
+  - **Categorias**: participação nas vendas (rosca), margem por categoria e dispersão vendas × lucro.
+  - **Dados**: tabela formatada e botão para baixar o CSV (pronto para o Excel em português).
 
 ## Tecnologias utilizadas
 
@@ -27,11 +26,13 @@ O app (`dash.py`) gera um conjunto de dados de vendas fictício e o apresenta em
 
 ### Conceitos praticados
 
-- `st.set_page_config`, `st.title`, `st.sidebar`, `st.columns`, `st.metric`, `st.expander`, `st.plotly_chart`, `st.dataframe`
-- Widgets de entrada: `st.date_input`, `st.multiselect`, `st.slider`
-- Modelo de execução do Streamlit: o script inteiro roda de novo a cada interação do usuário
-- Filtragem com máscaras booleanas no pandas e agregação com `groupby`
-- Gráficos de linha, barra e dispersão com Plotly Express
+- Layout: `st.set_page_config`, `st.sidebar`, `st.columns`, `st.tabs`
+- Widgets de entrada: `st.date_input` (modo intervalo), `st.multiselect`, `st.segmented_control`
+- Exibição: `st.metric` (com `delta` e sparkline), `st.plotly_chart`, `st.dataframe` com `column_config`, `st.download_button`
+- Modelo de execução do Streamlit: o script inteiro roda de novo a cada interação, por isso o `@st.cache_data` evita recalcular os dados; `st.stop()` interrompe a renderização
+- pandas: máscaras booleanas, `groupby`, `pd.Grouper` para agrupar datas por dia/semana/mês, `nlargest`, exportação para CSV
+- Plotly Express: área, barras, rosca e dispersão, com cores fixas por categoria
+- Formatação de valores no padrão brasileiro (`R$ 1.234,56`)
 
 ## Como executar
 
